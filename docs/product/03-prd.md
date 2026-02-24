@@ -4,6 +4,10 @@
 |-------|-------|
 | **Project** | Evergreen AI |
 | **Client** | Evergreen Group Pte Ltd |
+| **Contact** | Mrs Wee |
+| **Phone** | +65 9683 1343 / +65 9424 4633 |
+| **Email** | mrswee@evergreen.com.sg |
+| **Address** | 8 New Industrial Road, #01-02/03, LHK3, Singapore 536200 |
 | **Version** | 1.0 |
 | **Status** | Draft |
 | **Author** | Aira Ling |
@@ -800,8 +804,18 @@ SupplierProductMapping (N) ──── (1) Product
 
 ## 16. Appendix
 
-- Client website: https://evergreen.com.sg
-- Client e-shop: https://eshop.evergreen.com.sg
+### Client Details
+
+| Field | Value |
+|-------|-------|
+| **Company** | Evergreen Group Pte Ltd |
+| **Contact Person** | Mrs Wee |
+| **Phone** | +65 9683 1343 / +65 9424 4633 |
+| **Email** | mrswee@evergreen.com.sg |
+| **Address** | 8 New Industrial Road, #01-02/03, LHK3, Singapore 536200 |
+| **Website** | https://evergreen.com.sg |
+| **E-shop** | https://eshop.evergreen.com.sg |
+
 - Marketplace presence: Shopee.sg, Lazada.sg
 - Reference project: PilotNow (WhatsApp integration, GreenAPI, similar tech stack)
 - Total users: 4 (2 sales, 2 marketing)
