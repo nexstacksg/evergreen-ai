@@ -8,7 +8,7 @@
 | **Phone** | +65 9683 1343 / +65 9424 4633 |
 | **Email** | mrswee@evergreen.com.sg |
 | **Address** | 8 New Industrial Road, #01-02/03, LHK3, Singapore 536200 |
-| **Version** | 1.0 |
+| **Version** | 1.1 |
 | **Status** | Draft |
 | **Author** | Aira Ling |
 | **Reviewers** | Ken Ling |
@@ -20,18 +20,21 @@
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.0 | 2026-02-24 | Aira Ling | Initial PRD |
+| 1.1 | 2026-02-24 | Aira Ling | Added Quotation Generation epic (FR-019 to FR-022), client details |
 
 ---
 
 ## 1. Executive Summary
 
-Evergreen AI is a web-based AI assistant for Evergreen Group Pte Ltd, a Singapore office supplies company (evergreen.com.sg) serving corporates and schools. The system addresses two core operational bottlenecks: manual document processing for sales operations and labour-intensive e-commerce content creation for marketplace listings.
+Evergreen AI is a web-based AI assistant for Evergreen Group Pte Ltd, a Singapore office supplies company (evergreen.com.sg) serving corporates and schools. The system addresses three core operational bottlenecks: manual document processing for sales operations, labour-intensive e-commerce content creation for marketplace listings, and time-consuming quotation preparation.
 
 **Workstream 1 — Document Processing:** Incoming invoices, purchase orders, and delivery orders (from email, WhatsApp, and local folders) are OCR-scanned and AI-parsed into structured data. A review UI lets staff verify extractions side-by-side with originals, then export to Excel for ERP import. Extracted line items are matched against Evergreen's product catalogue.
 
 **Workstream 2 — E-commerce Marketing Agent:** AI generates optimised product listing content for Shopee.sg and Lazada.sg — including enhanced product photos (background removal, lifestyle shots) and platform-specific titles, descriptions, and bullet points. A review queue ensures human approval before content goes live.
 
-Both workstreams share a common product catalogue synced via periodic CSV/Excel imports from Evergreen's ERP (no API). The system targets 4 users (2 sales, 2 marketing) with a 4-week timeline and SGD 50K budget.
+**Workstream 3 — Quotation Generation:** AI pulls customer sales history from Evergreen's existing server, analyses purchase patterns, and generates smart draft quotations pre-populated with likely products and historical pricing. Sales staff review, adjust, and export professional branded PDFs — or email quotations directly to customers.
+
+All three workstreams share a common product catalogue synced via periodic CSV/Excel imports from Evergreen's ERP (no API). The system targets 4 users (2 sales, 2 marketing) with a 4-week timeline and SGD 50K budget.
 
 ## 2. Problem Statement & Hypothesis
 
@@ -480,6 +483,80 @@ Admin exports product list from ERP as CSV/Excel
 1. **Given** a new batch of documents finishes OCR processing, **When** they enter "pending_review", **Then** Sales users see a notification badge on the Document Queue.
 2. **Given** content generation completes for a batch, **When** content is ready, **Then** Marketing users see a notification badge on the Review Queue.
 3. **Given** an export or processing failure, **When** the error occurs, **Then** the relevant user is notified in-app with error details.
+
+---
+
+### Epic: Quotation Generation
+
+---
+
+#### FR-019: Sales History Retrieval
+
+| Field | Value |
+|-------|-------|
+| **Priority** | Must |
+| **Epic** | Quotation Generation |
+| **Description** | Connect to Evergreen's existing server/database to pull customer sales history. Retrieve past transactions by customer name or company — including products purchased, quantities, unit prices, dates, and frequency. Data is used to pre-populate quotations with relevant products and historical pricing. If direct DB access is unavailable, support CSV/Excel import of sales history as fallback. |
+
+**Acceptance Criteria:**
+
+1. **Given** a Sales user starts a new quotation, **When** they search/select a customer, **Then** the system retrieves that customer's purchase history showing: products, quantities, prices, and last purchase date.
+2. **Given** a customer has multiple past orders, **When** history is displayed, **Then** it is sorted by most recent and shows frequency (e.g., "ordered 5 times in last 6 months").
+3. **Given** the connection to the existing server is unavailable, **When** a user tries to pull history, **Then** the system shows a clear error and offers manual entry as fallback.
+4. **Given** sales history is imported via CSV/Excel, **When** the file is uploaded, **Then** the system parses and indexes it by customer for quotation lookup.
+
+**Notes:** Need to work with Mrs Wee's team to determine data access method — direct DB connection, API, or periodic export. Prioritise whatever their IT team can support.
+
+---
+
+#### FR-020: AI-Assisted Quotation Builder
+
+| Field | Value |
+|-------|-------|
+| **Priority** | Must |
+| **Epic** | Quotation Generation |
+| **Description** | AI generates a draft quotation based on customer sales history. The system analyses past purchases to suggest likely products, quantities (based on order patterns), and pricing (using last sold price or current catalogue price). Sales user can add/remove/edit line items, adjust quantities and pricing, apply discounts, and set validity period. |
+
+**Acceptance Criteria:**
+
+1. **Given** a customer has purchase history, **When** a new quotation is created, **Then** the AI suggests a product list based on their most frequently/recently purchased items with recommended quantities and last-sold prices.
+2. **Given** the AI-generated draft, **When** the Sales user reviews it, **Then** they can: add new line items (search from catalogue), remove items, edit quantities, override unit prices, and add line-level or overall discount.
+3. **Given** a product exists in the catalogue with a current price, **When** it appears in the quotation, **Then** both the catalogue price and the last-sold price to that customer are shown for reference.
+4. **Given** no sales history exists for a customer, **When** a quotation is created, **Then** the system starts with a blank quotation and the user can add items manually from the catalogue with current catalogue prices.
+
+---
+
+#### FR-021: Quotation PDF Export
+
+| Field | Value |
+|-------|-------|
+| **Priority** | Must |
+| **Epic** | Quotation Generation |
+| **Description** | Generate professional quotation PDF with Evergreen branding. Includes: company header, customer details, quotation number (auto-generated), date, validity period, line items table (item, description, qty, unit price, total), subtotal, GST, grand total, terms & conditions, and authorised signatory. PDF can be downloaded or emailed directly to the customer. |
+
+**Acceptance Criteria:**
+
+1. **Given** a completed quotation, **When** the user clicks "Generate PDF", **Then** a branded PDF is created with all quotation details, Evergreen logo, and professional formatting.
+2. **Given** a generated PDF, **When** the user clicks "Email to Customer", **Then** the PDF is sent to the customer's email with a standard cover message.
+3. **Given** multiple quotations for the same customer, **When** viewing quotation history, **Then** past quotations are listed with: quotation number, date, total amount, status (draft/sent/accepted/expired).
+
+**Notes:** Quotation numbering format to be confirmed with Mrs Wee (e.g., QT-2026-0001).
+
+---
+
+#### FR-022: Quotation Management
+
+| Field | Value |
+|-------|-------|
+| **Priority** | Should |
+| **Epic** | Quotation Generation |
+| **Description** | List view of all quotations with status tracking. Filter by customer, date range, status (draft/sent/accepted/expired/rejected). Duplicate existing quotation to create new version. Track quotation-to-order conversion. |
+
+**Acceptance Criteria:**
+
+1. **Given** a Sales user opens the Quotation list, **When** it loads, **Then** they see all quotations with columns: quotation number, customer, date, total amount, status, and last updated.
+2. **Given** an existing quotation, **When** the user clicks "Duplicate", **Then** a new draft quotation is created with the same line items and pricing, ready for editing.
+3. **Given** a quotation is accepted, **When** the user marks it as "Accepted", **Then** the status updates and it's linked to subsequent order/invoice tracking.
 
 ---
 
