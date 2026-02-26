@@ -1,0 +1,22 @@
+flowchart TD
+    A([Sales Manager]) --> B[Create Company Account]
+    B --> C{Has Contract?}
+    C -->|No| D[Public Only<br/><i>Sees full catalogue at public prices</i>]
+    C -->|Yes| E{Visibility Mode?}
+    E -->|Contract Only| F[Type A<br/><i>Sees only contract items</i>]
+    E -->|Contract + Public| G[Type B<br/><i>Contract items + public catalogue</i>]
+    
+    F & G --> H[Add Contract Items<br/><i>Product + permanent price</i>]
+    H --> I[Set Monthly Budget<br/><i>Company level</i>]
+    D --> I
+    I --> J{Individual<br/>Budgets?}
+    J -->|Yes| K[Set Per-User Budgets]
+    J -->|No| L[Shared Company Pool]
+    K & L --> M[Create User Accounts]
+    M --> N{Cost Centres?}
+    N -->|Yes| O[Assign Cost Centres]
+    N -->|No| P[Skip]
+    O & P --> Q([✅ Company Ready<br/>Users can login & order])
+
+    style A fill:#FF9800,color:#fff
+    style Q fill:#4CAF50,color:#fff

@@ -1,0 +1,20 @@
+flowchart TD
+    A([Customer Views Product]) --> B{Has Active<br/>Contract?}
+    B -->|No| C{Product in<br/>Catalogue?}
+    C -->|Yes| D[Show Public Price]
+    C -->|No| E[Product Not Found]
+    
+    B -->|Yes| F{Visibility<br/>Mode?}
+    F -->|Contract Only<br/>Type A| G{Product in<br/>Contract?}
+    G -->|Yes| H[Show Contract Price]
+    G -->|No| I[❌ Hidden<br/><i>Not visible to customer</i>]
+    
+    F -->|Contract + Public<br/>Type B| J{Product in<br/>Contract?}
+    J -->|Yes| K[Show Contract Price<br/><i>Public price struck through</i>]
+    J -->|No| L[Show Public Price]
+
+    style D fill:#2196F3,color:#fff
+    style H fill:#4CAF50,color:#fff
+    style K fill:#4CAF50,color:#fff
+    style L fill:#2196F3,color:#fff
+    style I fill:#f44336,color:#fff

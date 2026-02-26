@@ -1,0 +1,20 @@
+flowchart LR
+    A([Sales Staff]) --> B[Propose Contract Price<br/><i>Select product + set price</i>]
+    B --> C{Price > Current<br/>Contract Price?}
+    C -->|Yes| D[❌ REJECTED<br/><i>Cannot increase price</i>]
+    C -->|No| E[Pending Approval]
+    E --> F([Sales Manager])
+    F --> G{Approve?}
+    G -->|Yes| H[✅ Price Active<br/><i>Customer can see it</i>]
+    G -->|No| I[❌ Rejected<br/><i>With reason</i>]
+
+    A2([Sales Manager]) --> B2[Set Contract Price<br/><i>Direct — no approval needed</i>]
+    B2 --> C2{Price > Current?}
+    C2 -->|Yes| D2[❌ REJECTED<br/><i>Cannot increase price</i>]
+    C2 -->|No| H2[✅ Price Active<br/><i>Auto-approved</i>]
+
+    style D fill:#f44336,color:#fff
+    style D2 fill:#f44336,color:#fff
+    style H fill:#4CAF50,color:#fff
+    style H2 fill:#4CAF50,color:#fff
+    style I fill:#FF9800,color:#fff

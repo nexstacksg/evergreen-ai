@@ -1,0 +1,21 @@
+flowchart TD
+    A([Customer Login]) --> B[Browse Catalogue<br/><i>Personalised pricing</i>]
+    B --> C[Search / Filter Products]
+    C --> D[Add Items to Cart]
+    D --> E{Continue<br/>Shopping?}
+    E -->|Yes| B
+    E -->|No| F[View Cart<br/><i>Shows budget status</i>]
+    F --> G[Checkout]
+    G --> H{Individual<br/>Budget OK?}
+    H -->|No| I[❌ Blocked<br/><i>Individual budget exceeded</i>]
+    H -->|Yes| J{Company<br/>Budget OK?}
+    J -->|No| K[❌ Blocked<br/><i>Company budget exceeded</i>]
+    J -->|Yes| L[✅ PO Created]
+    L --> M[Confirmation Email<br/><i>To customer + Evergreen</i>]
+    L --> N[Budget Updated<br/><i>Individual + Company</i>]
+    L --> O[Order in Admin Queue<br/><i>For fulfilment</i>]
+
+    style A fill:#4CAF50,color:#fff
+    style L fill:#4CAF50,color:#fff
+    style I fill:#f44336,color:#fff
+    style K fill:#f44336,color:#fff

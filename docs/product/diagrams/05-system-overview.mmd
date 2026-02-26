@@ -1,0 +1,34 @@
+flowchart TB
+    subgraph customers["Customer Portal"]
+        CP1[Browse Catalogue]
+        CP2[Shopping Cart]
+        CP3[Place Orders / PO]
+        CP4[Budget Dashboard]
+        CP5[Order History]
+    end
+
+    subgraph admin["Admin Portal — Evergreen Sales Team"]
+        AP1[Customer Management]
+        AP2[Contract Pricing]
+        AP3[Budget Configuration]
+        AP4[Order Queue]
+        AP5[Spending Reports]
+    end
+
+    subgraph shared["Shared Services"]
+        DB[(PostgreSQL<br/>Shared with Evergreen AI)]
+        CAT[Product Catalogue<br/><i>CSV/Excel import from ERP</i>]
+        EMAIL[Email Notifications]
+        STORAGE[File Storage<br/><i>Product images, PO PDFs</i>]
+    end
+
+    CP1 & CP2 & CP3 --> DB
+    AP1 & AP2 & AP3 & AP4 --> DB
+    CAT --> DB
+    CP3 --> EMAIL
+    AP4 --> EMAIL
+    CP1 --> STORAGE
+
+    style customers fill:#E3F2FD,stroke:#1565C0
+    style admin fill:#FFF3E0,stroke:#E65100
+    style shared fill:#E8F5E9,stroke:#2E7D32
